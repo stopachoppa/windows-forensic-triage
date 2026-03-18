@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TerminalServices-LocalSessionManager"/>
+    <EventID>21</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:16:05.000000000Z"/>
+    <EventRecordID>1032</EventRecordID>
+    <Channel>Microsoft-Windows-TerminalServices-LocalSessionManager/Operational</Channel>
+    <Computer>SRV-FILE01</Computer>
+  </System>
+  <EventData>
+    <Data Name="User">ACME\svc_backup</Data>
+    <Data Name="SessionID">2</Data>
+    <Data Name="Address">10.10.1.55</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TerminalServices-LocalSessionManager"/>
+    <EventID>22</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:16:07.000000000Z"/>
+    <EventRecordID>1033</EventRecordID>
+    <Channel>Microsoft-Windows-TerminalServices-LocalSessionManager/Operational</Channel>
+    <Computer>SRV-FILE01</Computer>
+  </System>
+  <EventData>
+    <Data Name="User">ACME\svc_backup</Data>
+    <Data Name="SessionID">2</Data>
+    <Data Name="Address">10.10.1.55</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TerminalServices-LocalSessionManager"/>
+    <EventID>23</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:58:22.000000000Z"/>
+    <EventRecordID>1034</EventRecordID>
+    <Channel>Microsoft-Windows-TerminalServices-LocalSessionManager/Operational</Channel>
+    <Computer>SRV-FILE01</Computer>
+  </System>
+  <EventData>
+    <Data Name="User">ACME\svc_backup</Data>
+    <Data Name="SessionID">2</Data>
+    <Data Name="Address">10.10.1.55</Data>
+  </EventData>
+</Event>
+</Events>

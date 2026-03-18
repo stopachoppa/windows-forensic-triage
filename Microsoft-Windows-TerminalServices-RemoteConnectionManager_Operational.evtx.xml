@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TerminalServices-RemoteConnectionManager"/>
+    <EventID>1149</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:16:03.000000000Z"/>
+    <EventRecordID>1035</EventRecordID>
+    <Channel>Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational</Channel>
+    <Computer>SRV-FILE01</Computer>
+  </System>
+  <EventData>
+    <Data Name="Param1">ACME\svc_backup</Data>
+    <Data Name="Param2"></Data>
+    <Data Name="Param3">10.10.1.55</Data>
+  </EventData>
+</Event>
+</Events>

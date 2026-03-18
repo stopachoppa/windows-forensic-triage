@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TaskScheduler"/>
+    <EventID>106</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:22:05.000000000Z"/>
+    <EventRecordID>1029</EventRecordID>
+    <Channel>Microsoft-Windows-TaskScheduler/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TaskName">\Microsoft\Windows\UpdateCheck\WinUpdateSvc</Data>
+    <Data Name="UserName">ACME\jsmith</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TaskScheduler"/>
+    <EventID>141</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:22:07.000000000Z"/>
+    <EventRecordID>1030</EventRecordID>
+    <Channel>Microsoft-Windows-TaskScheduler/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TaskName">\Microsoft\Windows\UpdateCheck\WinUpdateSvc</Data>
+    <Data Name="UserName">ACME\jsmith</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-TaskScheduler"/>
+    <EventID>200</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:22:30.000000000Z"/>
+    <EventRecordID>1031</EventRecordID>
+    <Channel>Microsoft-Windows-TaskScheduler/Operational</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TaskName">\Microsoft\Windows\UpdateCheck\WinUpdateSvc</Data>
+    <Data Name="ActionName">C:\Users\jsmith\AppData\Roaming\WinUpdateSvc.exe</Data>
+    <Data Name="ResultCode">0</Data>
+    <Data Name="UserName">ACME\jsmith</Data>
+  </EventData>
+</Event>
+</Events>

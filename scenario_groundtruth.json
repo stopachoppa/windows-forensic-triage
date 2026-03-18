@@ -1,0 +1,87 @@
+{
+  "scenario": "Trickbot-style targeted intrusion",
+  "victim_host": "DESKTOP-W7K2MNX",
+  "victim_user": "jsmith",
+  "attacker_c2": "185.220.101.45",
+  "lateral_target": "SRV-FILE01",
+  "phases": [
+    {
+      "phase": "Initial Access",
+      "time": "2024-03-15 16:47:03",
+      "description": "Phishing document Invoice_March2024.docm opened in Word",
+      "indicators": [
+        "WINWORD.EXE opening .docm",
+        "cmd.exe spawned by Word"
+      ]
+    },
+    {
+      "phase": "Execution",
+      "time": "2024-03-15 16:47:52",
+      "description": "Macro executed encoded PowerShell to download stager from 185.220.101.45",
+      "indicators": [
+        "EncodedCommand PowerShell",
+        "DownloadString from C2",
+        "svchost32.exe dropped to Temp"
+      ]
+    },
+    {
+      "phase": "Persistence",
+      "time": "2024-03-15 16:48:15",
+      "description": "Malicious service WinUpdateHelper installed, scheduled task WinUpdateSvc created",
+      "indicators": [
+        "Event 7045 new service",
+        "Event 4698 scheduled task",
+        "WinUpdateSvc.exe in Roaming"
+      ]
+    },
+    {
+      "phase": "Credential Access",
+      "time": "2024-03-15 16:52:04",
+      "description": "LSASS memory dumped via pd.exe (procdump), sekurlsa attempted via PowerShell",
+      "indicators": [
+        "pd.exe -ma lsass.exe",
+        "Event 4656 lsass handle",
+        "sekurlsa::logonpasswords in PS log"
+      ]
+    },
+    {
+      "phase": "Discovery",
+      "time": "2024-03-15 16:55:00",
+      "description": "Domain recon via net.exe and nltest.exe, BloodHound collection via SharpHound",
+      "indicators": [
+        "net group Domain Admins",
+        "nltest /dclist",
+        "SharpHound.exe -c All"
+      ]
+    },
+    {
+      "phase": "Lateral Movement",
+      "time": "2024-03-15 17:15:33",
+      "description": "RDP to SRV-FILE01 using harvested svc_backup credentials",
+      "indicators": [
+        "Event 4648 explicit credentials",
+        "Event 4624 Type 3 from victim IP",
+        "RDP session events on SRV-FILE01"
+      ]
+    },
+    {
+      "phase": "Collection",
+      "time": "2024-03-15 17:35:18",
+      "description": "Robocopy staging of Finance share contents to local Temp directory",
+      "indicators": [
+        "robocopy \\\\SRV-FILE01\\Finance",
+        "large volume of file creation in Temp"
+      ]
+    },
+    {
+      "phase": "Exfiltration",
+      "time": "2024-03-15 17:41:07",
+      "description": "Rclone used to exfiltrate staged files to attacker-controlled cloud storage over HTTPS",
+      "indicators": [
+        "rclone.exe copy",
+        "~60MB outbound to 185.220.101.45:443",
+        "rclone.conf in Temp"
+      ]
+    }
+  ]
+}

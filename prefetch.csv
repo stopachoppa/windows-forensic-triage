@@ -1,0 +1,12 @@
+LastRun,RunCount,ExecutableName,FullPath,SHA1
+2024-03-15 16:47:03,12,WINWORD.EXE,C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE,da39a3ee5e6b4b0d3255bfef95601890afd80709
+2024-03-15 16:47:52,1,POWERSHELL.EXE,C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe,adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+2024-03-15 16:48:10,1,SVCHOST32.EXE,C:\Users\jsmith\AppData\Local\Temp\svchost32.exe,b6d767d2f8ed5d21a44b0e5886680cb9
+2024-03-15 16:52:04,1,PD.EXE,C:\Users\jsmith\AppData\Local\Temp\pd.exe,5d41402abc4b2a76b9719d911017c592
+2024-03-15 16:55:00,3,NET.EXE,C:\Windows\System32\net.exe,adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+2024-03-15 16:55:18,2,NLTEST.EXE,C:\Windows\System32\nltest.exe,adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+2024-03-15 17:03:12,1,SHARPHOUND.EXE,C:\Users\jsmith\AppData\Local\Temp\SharpHound.exe,c4ca4238a0b923820dcc509a6f75849b
+2024-03-15 17:15:33,1,MSTSC.EXE,C:\Windows\System32\mstsc.exe,adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+2024-03-15 17:22:30,2,WINUPDATESVC.EXE,C:\Users\jsmith\AppData\Roaming\WinUpdateSvc.exe,eccbc87e4b5ce2fe28308fd9f2a7baf3
+2024-03-15 17:35:18,1,ROBOCOPY.EXE,C:\Windows\System32\robocopy.exe,adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+2024-03-15 17:41:07,1,RCLONE.EXE,C:\Users\jsmith\AppData\Local\Temp\rclone.exe,1679091c5a880faf6fb5e6087eb1b2dc

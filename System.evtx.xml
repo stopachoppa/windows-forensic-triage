@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Service Control Manager"/>
+    <EventID>7045</EventID>
+    <Level>2</Level>
+    <TimeCreated SystemTime="2024-03-15T16:48:15.000000000Z"/>
+    <EventRecordID>1023</EventRecordID>
+    <Channel>System</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="ServiceName">WinUpdateHelper</Data>
+    <Data Name="ImagePath">C:\Users\jsmith\AppData\Local\Temp\svchost32.exe -service</Data>
+    <Data Name="ServiceType">user mode service</Data>
+    <Data Name="StartType">auto start</Data>
+    <Data Name="AccountName">LocalSystem</Data>
+  </EventData>
+</Event>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Service Control Manager"/>
+    <EventID>7040</EventID>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2024-03-15T17:22:10.000000000Z"/>
+    <EventRecordID>1024</EventRecordID>
+    <Channel>System</Channel>
+    <Computer>DESKTOP-W7K2MNX</Computer>
+  </System>
+  <EventData>
+    <Data Name="param1">Task Scheduler</Data>
+    <Data Name="param2">auto start</Data>
+    <Data Name="param3">demand start</Data>
+  </EventData>
+</Event>
+</Events>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MFT Direct Analysis — $MFT</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;background:#0d1117;color:#c9d1d9;font-size:13px}
+header{background:#161b22;padding:20px 28px;border-bottom:3px solid #2e5f8a}
+header h1{font-size:20px;color:#58a6ff}
+header .meta{color:#8b949e;font-size:11.5px;margin-top:5px}
+nav{background:#0d1117;padding:10px 28px;display:flex;gap:14px;flex-wrap:wrap;
+     border-bottom:1px solid #21262d;position:sticky;top:0;z-index:99;background:#0d1117}
+nav a{color:#58a6ff;text-decoration:none;font-size:11.5px;white-space:nowrap}
+nav a span{color:#8b949e}
+nav a:hover{color:#fff}
+.summary{background:#161b22;margin:20px 28px 0;padding:14px 18px;
+          border-left:4px solid #2e5f8a;border-radius:3px;font-size:12px;color:#8b949e;line-height:1.7}
+.summary strong{color:#c9d1d9}
+section{margin:28px 28px 0}
+h2{color:#58a6ff;font-size:15px;padding-bottom:7px;border-bottom:1px solid #21262d;margin-bottom:9px}
+.badge{background:#1f6feb;color:#fff;font-size:10px;padding:1px 7px;border-radius:9px;margin-left:7px;vertical-align:middle}
+.desc{color:#8b949e;font-size:11px;margin-bottom:10px;font-style:italic;line-height:1.5}
+.none{color:#484f58;font-style:italic;padding:6px 0;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:8px}
+th{background:#161b22;color:#58a6ff;text-align:left;padding:6px 9px;
+    position:sticky;top:38px;cursor:pointer;border-bottom:1px solid #21262d;
+    user-select:none;white-space:nowrap}
+th:hover{background:#1c2128}
+td{padding:5px 9px;border-bottom:1px solid #161b22;word-break:break-all;vertical-align:top}
+td.path{font-family:"Courier New",monospace;font-size:10.5px;color:#8b949e;word-break:break-all}
+tr:hover td{background:#161b22}
+tr.high td{background:#2d1515;border-left:3px solid #f85149}
+tr.medium td{background:#2d2008;border-left:3px solid #d29922}
+tr.deleted td{color:#484f58;font-style:italic}
+tr.subrow td{background:#0d1117;border-left:3px solid #30363d;font-size:11px}
+tr.subrow:hover td{background:#161b22}
+button.tog{background:#21262d;color:#8b949e;border:1px solid #30363d;
+            padding:2px 8px;border-radius:4px;cursor:pointer;font-size:11px}
+button.tog:hover{background:#2d333b;color:#c9d1d9}
+footer{margin:36px 28px 28px;color:#484f58;font-size:11px;padding-bottom:20px}
+</style>
+<script>
+function toggleGroup(id){
+  const rows=document.querySelectorAll('#'+id);
+  const btn=event.target;
+  const visible=rows[0]&&rows[0].style.display!=='none';
+  rows.forEach(r=>r.style.display=visible?'none':'table-row');
+  btn.textContent=visible?btn.textContent.replace('▴','▾'):btn.textContent.replace('▾','▴');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('th').forEach((th,idx)=>{
+    th.addEventListener('click',()=>{
+      const tbody=th.closest('table').querySelector('tbody');
+      const rows=[...tbody.querySelectorAll('tr:not(.subrow)')];
+      const asc=th.dataset.asc!=='true';
+      rows.sort((a,b)=>{
+        const av=a.cells[idx]?.textContent.trim()||'';
+        const bv=b.cells[idx]?.textContent.trim()||'';
+        return asc?av.localeCompare(bv,undefined,{numeric:true}):bv.localeCompare(av,undefined,{numeric:true});
+      });
+      rows.forEach(r=>tbody.appendChild(r));
+      th.dataset.asc=asc;
+    });
+  });
+});
+</script>
+</head>
+<body>
+<header>
+  <h1>$MFT Direct Analysis Report</h1>
+  <div class="meta">
+    Source: $MFT &nbsp;|&nbsp;
+    Records parsed: 97 &nbsp;|&nbsp;
+    Unique findings: 20 &nbsp;|&nbsp;
+    Generated: 2026-03-18 17:14:35 UTC
+  </div>
+</header>
+<nav><a href="#IOC_Filename_Matches">IOC Filename Matches <span>(6)</span></a><a href="#LOLBin_Observed_Outside_System_Path">LOLBin Observed Outside System Path <span>(0)</span></a><a href="#Suspicious_Executable_Locations">Suspicious Executable Locations <span>(9)</span></a><a href="#Timestamp_Stomping_Suspects">Timestamp Stomping Suspects <span>(1)</span></a><a href="#Staging_/_Exfiltration_Indicators">Staging / Exfiltration Indicators <span>(2)</span></a><a href="#High-Entropy_Executable_Names">High-Entropy Executable Names <span>(1)</span></a><a href="#Alternate_Data_Streams">Alternate Data Streams <span>(0)</span></a><a href="#Deleted_Entry_Recovery">Deleted Entry Recovery <span>(1)</span></a><a href="#Burst_Windows">Burst Windows <span>(1)</span></a></nav>
+<div class="summary">
+  <strong>20 unique findings</strong> across active categories.
+  
+  <br>Duplicate entries for the same filename are grouped — click <em>N occurrences ▾</em> to expand all timestamps.
+  <br>Full paths resolved via parent chain walk from raw $MFT.
+  <br><strong style="color:#f85149">Red</strong> = IOC match &nbsp;|&nbsp;
+  <strong style="color:#d29922">Orange</strong> = LOLBin outside system path / MEDIUM stomp &nbsp;|&nbsp;
+  <em>Italic</em> = deleted/unallocated.
+  <br>SI timestamps ($STANDARD_INFORMATION) can be manipulated. FN ($FILE_NAME) are NTFS-controlled.
+</div>
+
+<section id="IOC_Filename_Matches">
+  <h2>IOC Filename Matches <span class="badge">6</span></h2>
+  <p class="desc">Known-bad filename matches against the IOC list. Review immediately.</p>
+  <table><thead><tr><th>filename</th><th>ioc_term</th><th>ext</th><th>earliest_si</th><th>fn_created</th><th>filesize</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class="high"><td><strong>mimikatz.exe</strong></td><td>mimikatz</td><td>.exe</td><td>2022-01-01 00:00:00</td><td>2024-03-15 09:45:00</td><td>1,355,776</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\mimikatz.exe</td></tr><tr class="high"><td><strong>svchost32.exe</strong></td><td>svchost32</td><td>.exe</td><td>2024-03-15 08:48:10</td><td>2024-03-15 08:48:10</td><td>524,288</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\svchost32.exe</td></tr><tr class="high"><td><strong>SharpHound.exe</strong></td><td>sharphound</td><td>.exe</td><td>2024-03-15 08:55:00</td><td>2024-03-15 08:55:00</td><td>1,048,576</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\SharpHound.exe</td></tr><tr class="high"><td><strong>bloodhound_acme.zip</strong></td><td>bloodhound</td><td>.zip</td><td>2024-03-15 09:03:45</td><td>2024-03-15 09:03:45</td><td>3,145,728</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\bloodhound_acme.zip</td></tr><tr class="high"><td><strong>rclone.exe</strong></td><td>rclone</td><td>.exe</td><td>2024-03-15 09:41:00</td><td>2024-03-15 09:41:00</td><td>47,185,920</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\rclone.exe</td></tr><tr class="high"><td><strong>rclone.conf</strong></td><td>rclone</td><td>.conf</td><td>2024-03-15 09:41:00</td><td>2024-03-15 09:41:00</td><td>512</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\rclone.conf</td></tr></tbody></table>
+</section>
+<section id="LOLBin_Observed_Outside_System_Path">
+  <h2>LOLBin Observed Outside System Path <span class="badge">0</span></h2>
+  <p class="desc">Legitimate Windows binaries known to be abusable for proxy execution or defense evasion (LOLBAS project). These are only flagged when found OUTSIDE expected system paths (System32/SysWOW64/Program Files). Presence in a user or temp path warrants investigation.</p>
+  <p class="none">No findings.</p>
+</section>
+<section id="Suspicious_Executable_Locations">
+  <h2>Suspicious Executable Locations <span class="badge">9</span></h2>
+  <p class="desc">Executables in user-writable or temp paths (AppData, Temp, Desktop, Downloads, etc.).</p>
+  <table><thead><tr><th>filename</th><th>ext</th><th>earliest_si</th><th>fn_created</th><th>filesize</th><th>flags</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class=""><td><strong>mimikatz.exe</strong></td><td>.exe</td><td>2022-01-01 00:00:00</td><td>2024-03-15 09:45:00</td><td>1,355,776</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\mimikatz.exe</td></tr><tr class="deleted"><td><strong>dropper.exe</strong></td><td>.exe</td><td>2024-03-15 08:47:50</td><td>2024-03-15 08:47:50</td><td>32,768</td><td>deleted</td><td>✗ deleted</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\dropper.exe</td></tr><tr class=""><td><strong>svchost32.exe</strong></td><td>.exe</td><td>2024-03-15 08:48:10</td><td>2024-03-15 08:48:10</td><td>524,288</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\svchost32.exe</td></tr><tr class=""><td><strong>pd.exe</strong></td><td>.exe</td><td>2024-03-15 08:52:00</td><td>2024-03-15 08:52:00</td><td>471,040</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\pd.exe</td></tr><tr class=""><td><strong>SharpHound.exe</strong></td><td>.exe</td><td>2024-03-15 08:55:00</td><td>2024-03-15 08:55:00</td><td>1,048,576</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\SharpHound.exe</td></tr><tr class=""><td><strong>a3f9e2b1c4d5.exe</strong></td><td>.exe</td><td>2024-03-15 09:03:00</td><td>2024-03-15 09:03:00</td><td>102,400</td><td>high-entropy name</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Roaming\a3f9e2b1c4d5.exe</td></tr><tr class=""><td><strong>WinUpdateSvc.exe</strong></td><td>.exe</td><td>2024-03-15 09:22:00</td><td>2024-03-15 09:22:00</td><td>81,920</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Roaming\WinUpdateSvc.exe</td></tr><tr class=""><td><strong>update_check.ps1</strong></td><td>.ps1</td><td>2024-03-15 09:22:05</td><td>2024-03-15 09:22:05</td><td>4,096</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Roaming\update_check.ps1</td></tr><tr class=""><td><strong>rclone.exe</strong></td><td>.exe</td><td>2024-03-15 09:41:00</td><td>2024-03-15 09:41:00</td><td>47,185,920</td><td></td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\rclone.exe</td></tr></tbody></table>
+</section>
+<section id="Timestamp_Stomping_Suspects">
+  <h2>Timestamp Stomping Suspects <span class="badge">1</span></h2>
+  <p class="desc">SI $STANDARD_INFORMATION timestamps diverge from FN $FILE_NAME timestamps. SI can be set by an attacker; FN is NTFS-controlled. HIGH = >1 hour divergence.</p>
+  <table><thead><tr><th>filename</th><th>ext</th><th>earliest_si</th><th>fn_created</th><th>delta_readable</th><th>severity</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class="medium"><td><strong>mimikatz.exe</strong></td><td>.exe</td><td>2022-01-01 00:00:00</td><td>2024-03-15 09:45:00</td><td>804d 9h</td><td>HIGH</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\mimikatz.exe</td></tr></tbody></table>
+</section>
+<section id="Staging_/_Exfiltration_Indicators">
+  <h2>Staging / Exfiltration Indicators <span class="badge">2</span></h2>
+  <p class="desc">Archives and large files consistent with data staging. Cross-reference with SRUM bytes-sent and firewall outbound logs.</p>
+  <table><thead><tr><th>filename</th><th>ext</th><th>earliest_si</th><th>fn_created</th><th>filesize</th><th>flags</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class=""><td><strong>bloodhound_acme.zip</strong></td><td>.zip</td><td>2024-03-15 09:03:45</td><td>2024-03-15 09:03:45</td><td>3,145,728</td><td>archive</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\bloodhound_acme.zip</td></tr><tr class=""><td><strong>backup_docs.zip</strong></td><td>.zip</td><td>2024-03-15 09:35:30</td><td>2024-03-15 09:35:30</td><td>524,288,000</td><td>large (500.0 MB), archive</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\Desktop\backup_docs.zip</td></tr></tbody></table>
+</section>
+<section id="High-Entropy_Executable_Names">
+  <h2>High-Entropy Executable Names <span class="badge">1</span></h2>
+  <p class="desc">Executables with randomised or hex-string names — dropper/stager naming pattern.</p>
+  <table><thead><tr><th>filename</th><th>ext</th><th>entropy</th><th>earliest_si</th><th>fn_created</th><th>filesize</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class=""><td><strong>a3f9e2b1c4d5.exe</strong></td><td>.exe</td><td>3.585</td><td>2024-03-15 09:03:00</td><td>2024-03-15 09:03:00</td><td>102,400</td><td>✓</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Roaming\a3f9e2b1c4d5.exe</td></tr></tbody></table>
+</section>
+<section id="Alternate_Data_Streams">
+  <h2>Alternate Data Streams <span class="badge">0</span></h2>
+  <p class="desc">Files with Alternate Data Streams. May conceal payloads or Zone.Identifier markers.</p>
+  <p class="none">No findings.</p>
+</section>
+<section id="Deleted_Entry_Recovery">
+  <h2>Deleted Entry Recovery <span class="badge">1</span></h2>
+  <p class="desc">Executables and archives in unallocated MFT entries. Content may be recoverable depending on disk state.</p>
+  <table><thead><tr><th>filename</th><th>ext</th><th>earliest_si</th><th>fn_created</th><th>filesize</th><th>in_use</th><th>occurrences</th><th>path</th></tr></thead><tbody><tr class="deleted"><td><strong>dropper.exe</strong></td><td>.exe</td><td>2024-03-15 08:47:50</td><td>2024-03-15 08:47:50</td><td>32,768</td><td>✗ deleted</td><td><span style="color:#484f58">1</span></td><td class="path">\Users\jsmith\AppData\Local\Temp\dropper.exe</td></tr></tbody></table>
+</section>
+<section id="Burst_Windows">
+  <h2>Burst Creation Windows <span class="badge">1</span></h2>
+  <p class="desc">50+ files created within 60s.
+  Ransomware encryption, mass tool deployment, or bulk staging indicator.</p>
+  <table><thead><tr><th>Window Start</th><th>Window End</th><th>Count</th><th>Duration</th><th>First File</th><th>Last File</th></tr></thead><tbody><tr><td>2024-03-15 11:00:00</td><td>2024-03-15 11:00:24</td><td>50</td><td>24s</td><td class="path">encrypted_0000.docx<br><small>\Users\jsmith\AppData\Local\Temp\encrypted_0000.docx</small></td><td class="path">encrypted_0049.docx<br><small>\Users\jsmith\AppData\Local\Temp\encrypted_0049.docx</small></td></tr></tbody></table>
+</section>
+<footer>mft_direct.py v2.0 &nbsp;|&nbsp; Raw $MFT parser — no third-party dependencies &nbsp;|&nbsp;
+SQLite DB available for unrestricted querying</footer>
+</body>
+</html>
